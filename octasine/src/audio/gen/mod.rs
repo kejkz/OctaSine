@@ -96,6 +96,7 @@ struct VoiceOperatorData<const W: usize> {
     modulation_targets: ModTargetStorage,
     velocity_sensitivity_mod_out: [f64; W],
     velocity_sensitivity_feedback: [f64; W],
+    aftertouch_sensitivity_volume: [f64; W],
 }
 
 impl<const W: usize> Default for VoiceOperatorData<W> {
@@ -113,6 +114,7 @@ impl<const W: usize> Default for VoiceOperatorData<W> {
             modulation_targets: Default::default(),
             velocity_sensitivity_mod_out: [0.0; W],
             velocity_sensitivity_feedback: [0.0; W],
+            aftertouch_sensitivity_volume: [0.0; W],
         }
     }
 }
@@ -729,6 +731,7 @@ mod gen {
         };
 
         let volume = Pd::from_arr(operator_data.volume);
+        let aftertouch_factor = aftertouch_factor(Pd::from_arr(operator_data.aftertouch_sensitivity_volume));
         let envelope_volume = Pd::from_arr(operator_data.envelope_volume);
         let panning = Pd::from_arr(operator_data.panning);
 
@@ -748,7 +751,7 @@ mod gen {
             let pan_factor = Pd::from_arr(operator_data.constant_power_panning);
             let mix_out = Pd::from_arr(operator_data.mix_out);
 
-            sample * pan_factor * mix_out
+            sample * pan_factor * mix_out * aftertouch_factor
         };
         let mod_out = {
             let pan_factor = linear_panning_factor(panning);
@@ -834,6 +837,13 @@ mod gen {
     #[inline]
     unsafe fn velocity_factor(sensitivity: Pd, velocity: Pd) -> Pd {
         sensitivity * velocity + (Pd::new(1.0) - sensitivity)
+    }
+
+    #[feature_gate]
+    #[target_feature_enable]
+    #[inline]
+    unsafe fn aftertouch_factor(sensitivity: Pd) -> Pd {
+        Pd::new(1.0) - sensitivity
     }
 
     #[cfg(test)]

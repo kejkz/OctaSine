@@ -105,12 +105,16 @@ pub const PARAMETERS: &[Parameter] = &[
     Parameter::Master(MasterParameter::VelocitySensitivityVolume),
     Parameter::Operator(0, OperatorParameter::VelocitySensitivityModOut),
     Parameter::Operator(0, OperatorParameter::VelocitySensitivityFeedback),
+    Parameter::Operator(0, OperatorParameter::AftertouchSensitivityVolume),
     Parameter::Operator(1, OperatorParameter::VelocitySensitivityModOut),
     Parameter::Operator(1, OperatorParameter::VelocitySensitivityFeedback),
+    Parameter::Operator(1, OperatorParameter::AftertouchSensitivityVolume),
     Parameter::Operator(2, OperatorParameter::VelocitySensitivityModOut),
     Parameter::Operator(2, OperatorParameter::VelocitySensitivityFeedback),
+    Parameter::Operator(2, OperatorParameter::AftertouchSensitivityVolume),
     Parameter::Operator(3, OperatorParameter::VelocitySensitivityModOut),
     Parameter::Operator(3, OperatorParameter::VelocitySensitivityFeedback),
+    Parameter::Operator(3, OperatorParameter::AftertouchSensitivityVolume),
     Parameter::Master(MasterParameter::VoiceMode),
     Parameter::Master(MasterParameter::GlideActive),
     Parameter::Master(MasterParameter::GlideTime),
@@ -164,6 +168,7 @@ pub enum OperatorParameter {
     EnvelopeLockGroup,
     VelocitySensitivityModOut,
     VelocitySensitivityFeedback,
+    AftertouchSensitivityVolume,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]

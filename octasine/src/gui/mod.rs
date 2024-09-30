@@ -296,6 +296,9 @@ impl<H: GuiSyncHandle> OctaSineIcedApplication<H> {
                     OperatorParameter::VelocitySensitivityFeedback => {
                         operator.feedback_velocity_sensitivity.set_value(v)
                     }
+                    OperatorParameter::AftertouchSensitivityVolume => {
+                        operator.volume_aftertouch_sensitivity.set_value(v)
+                    }
                 }
             }
             Parameter::Lfo(index, p) => {

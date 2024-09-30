@@ -1,3 +1,4 @@
+pub mod aftertouch_sensitivity;
 pub mod glide_active;
 pub mod glide_bpm_sync;
 pub mod glide_mode;
@@ -142,6 +143,9 @@ impl Parameter {
                 OperatorParameter::VelocitySensitivityModOut => {
                     format_compact!("OP {} mod out vs", index + 1)
                 }
+                OperatorParameter::AftertouchSensitivityVolume => {
+                    format_compact!("OP {} aftertouch vols", index + 1)
+                }
                 OperatorParameter::VelocitySensitivityFeedback => {
                     format_compact!("OP {} feedback vs", index + 1)
                 }
@@ -219,6 +223,9 @@ impl Parameter {
                 }
                 OperatorParameter::VelocitySensitivityFeedback => {
                     format!("OP {} feedback velocity sensitivity", index + 1)
+                }
+                OperatorParameter::AftertouchSensitivityVolume => {
+                    format!("OP {} volume aftertouch sensitivity", index + 1)
                 }
             },
             Self::Lfo(index, p) => match p {

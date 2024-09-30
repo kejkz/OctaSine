@@ -5,6 +5,7 @@ use iced_baseview::{
 };
 
 use crate::parameters::velocity_sensitivity::VelocitySensitivityValue;
+use crate::parameters::aftertouch_sensitivity::AftertouchSensitivityValue;
 use crate::parameters::{
     Operator2ModulationTargetValue, Operator3ModulationTargetValue, Operator4ModulationTargetValue,
     OperatorFeedbackValue, OperatorFrequencyFineValue, OperatorFrequencyFreeValue,
@@ -45,6 +46,7 @@ pub struct OperatorWidgets {
     pub frequency_fine: OctaSineKnob<OperatorFrequencyFineValue>,
     pub mod_out_velocity_sensitivity: OctaSineKnob<VelocitySensitivityValue>,
     pub feedback_velocity_sensitivity: OctaSineKnob<VelocitySensitivityValue>,
+    pub volume_aftertouch_sensitivity: OctaSineKnob<AftertouchSensitivityValue>,
     pub envelope: Envelope,
     pub wave_display: WaveDisplay,
 }
@@ -94,6 +96,10 @@ impl OperatorWidgets {
                 operator_index,
             ),
             feedback_velocity_sensitivity: knob::operator_feedback_velocity_sensitivity(
+                sync_handle,
+                operator_index,
+            ),
+            volume_aftertouch_sensitivity: knob::operator_volume_aftertouch_sensitivity(
                 sync_handle,
                 operator_index,
             ),
@@ -202,7 +208,8 @@ impl OperatorWidgets {
                     })
                     .push(space_l3())
                     .push(container_l3(self.feedback_velocity_sensitivity.view(theme)))
-                    .push(space_l3().width(LINE_HEIGHT * 15)),
+                    .push(space_l3().width(LINE_HEIGHT * 4))
+                    .push(container_l3(self.volume_aftertouch_sensitivity.view(theme))),
             )
         } else {
             container_l2(self.envelope.view(theme))

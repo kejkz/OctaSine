@@ -11,12 +11,13 @@ use crate::parameters::master_pitch_bend_range::{
     MasterPitchBendRangeDownValue, MasterPitchBendRangeUpValue,
 };
 use crate::parameters::velocity_sensitivity::VelocitySensitivityValue;
+use crate::parameters::aftertouch_sensitivity::AftertouchSensitivityValue;
 use crate::parameters::{
     LfoAmountValue, LfoFrequencyFreeValue, LfoFrequencyRatioValue, LfoParameter,
     MasterFrequencyValue, MasterParameter, MasterVolumeValue, OperatorFeedbackValue,
     OperatorFrequencyFineValue, OperatorFrequencyFreeValue, OperatorFrequencyRatioValue,
     OperatorMixOutValue, OperatorModOutValue, OperatorPanningValue, OperatorParameter,
-    OperatorVolumeValue, Parameter, ParameterValue, WrappedParameter,
+    OperatorVolumeValue, Parameter, ParameterValue, WrappedParameter
 };
 use crate::sync::GuiSyncHandle;
 
@@ -281,6 +282,27 @@ where
         KnobStyle::Regular,
     )
 }
+
+pub fn operator_volume_aftertouch_sensitivity<H>(
+    sync_handle: &H,
+    operator_index: usize,
+) -> OctaSineKnob<AftertouchSensitivityValue>
+where
+    H: GuiSyncHandle,
+{
+    OctaSineKnob::new(
+        sync_handle,
+        Parameter::Operator(
+            operator_index as u8,
+            OperatorParameter::AftertouchSensitivityVolume,
+        ),
+        "Vol AT",
+        "Volume aftertouch sensitivity",
+        TickMarkType::MinMaxAndDefault,
+        KnobStyle::Regular,
+    )
+}
+
 
 pub fn operator_mod_out_velocity_sensitivity<H>(
     sync_handle: &H,

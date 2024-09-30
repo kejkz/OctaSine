@@ -456,12 +456,19 @@ impl AudioState {
         }
     }
 
-    #[allow(unused_variables)]
     fn aftertouch(&mut self, key: u8, velocity: KeyVelocity) {
-        // Disabled for now
-        // if let Some(voice) = self.voices.get_mut(&key) {
-        //     voice.aftertouch(velocity);
-        // }
+        let voice_mode = self.parameters.voice_mode.get_value();
+
+        match voice_mode {
+            VoiceMode::Polyphonic => {
+                if let Some(voice) = self.polyphonic_voices.get_mut(&key) {
+                    voice.aftertouch(velocity);
+                }
+            }
+            VoiceMode::Monophonic => {
+                self.monophonic_voice.aftertouch(velocity);
+            }
+        }
     }
 
     #[cfg(test)]

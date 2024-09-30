@@ -26,6 +26,7 @@ use crate::parameters::master_pitch_bend_range::{
     MasterPitchBendRangeDownValue, MasterPitchBendRangeUpValue,
 };
 use crate::parameters::velocity_sensitivity::VelocitySensitivityValue;
+use crate::parameters::aftertouch_sensitivity::AftertouchSensitivityValue;
 use crate::parameters::voice_mode::VoiceModeValue;
 use crate::parameters::*;
 
@@ -69,6 +70,7 @@ pub struct AudioParameters {
     pub master_pitch_bend_range_up: SimpleAudioParameter<MasterPitchBendRangeUpValue>,
     pub master_pitch_bend_range_down: SimpleAudioParameter<MasterPitchBendRangeDownValue>,
     pub volume_velocity_sensitivity: InterpolatableAudioParameter<VelocitySensitivityValue>,
+    pub volume_aftertouch_sensitivity: InterpolatableAudioParameter<AftertouchSensitivityValue>,
     pub voice_mode: SimpleAudioParameter<VoiceModeValue>,
     pub glide_active: SimpleAudioParameter<GlideActiveValue>,
     pub glide_time: SimpleAudioParameter<GlideTimeValue>,
@@ -87,6 +89,7 @@ impl Default for AudioParameters {
             master_pitch_bend_range_up: Default::default(),
             master_pitch_bend_range_down: Default::default(),
             volume_velocity_sensitivity: Default::default(),
+            volume_aftertouch_sensitivity: Default::default(),
             voice_mode: Default::default(),
             glide_active: Default::default(),
             glide_time: Default::default(),
@@ -165,6 +168,9 @@ macro_rules! impl_patch_interaction {
                         VelocitySensitivityFeedback => {
                             $f(&mut operator.velocity_sensitivity_feedback, input)
                         }
+                        AftertouchSensitivityVolume => {
+                            $f(&mut operator.aftertouch_sensitivity_volume, input)
+                        }
                     }
                 }
                 Parameter::Lfo(index, p) => {
@@ -237,6 +243,7 @@ pub struct OperatorAudioParameters {
     pub volume_envelope: OperatorEnvelopeAudioParameters,
     pub velocity_sensitivity_mod_out: InterpolatableAudioParameter<VelocitySensitivityValue>,
     pub velocity_sensitivity_feedback: InterpolatableAudioParameter<VelocitySensitivityValue>,
+    pub aftertouch_sensitivity_volume: InterpolatableAudioParameter<AftertouchSensitivityValue>,
 }
 
 impl OperatorAudioParameters {
@@ -262,6 +269,7 @@ impl OperatorAudioParameters {
             volume_envelope: Default::default(),
             velocity_sensitivity_mod_out: Default::default(),
             velocity_sensitivity_feedback: Default::default(),
+            aftertouch_sensitivity_volume: Default::default(),
         }
     }
 
@@ -285,6 +293,8 @@ impl OperatorAudioParameters {
         self.velocity_sensitivity_mod_out
             .advance_one_sample(sample_rate);
         self.velocity_sensitivity_feedback
+            .advance_one_sample(sample_rate);
+        self.aftertouch_sensitivity_volume
             .advance_one_sample(sample_rate);
     }
 }

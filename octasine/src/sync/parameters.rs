@@ -6,7 +6,7 @@ use crate::{
         glide_active::GlideActiveValue, glide_bpm_sync::GlideBpmSyncValue,
         glide_mode::GlideModeValue, glide_retrigger::GlideRetriggerValue,
         glide_time::GlideTimeValue, velocity_sensitivity::VelocitySensitivityValue,
-        voice_mode::VoiceModeValue, *,
+        aftertouch_sensitivity::AftertouchSensitivityValue, voice_mode::VoiceModeValue, *,
     },
 };
 
@@ -93,6 +93,9 @@ impl PatchParameter {
                     },
                     VelocitySensitivityFeedback | VelocitySensitivityModOut => {
                         Self::new::<VelocitySensitivityValue>(parameter)
+                    },
+                    AftertouchSensitivityVolume => {
+                        Self::new::<AftertouchSensitivityValue>(parameter)
                     }
                 }
             }
